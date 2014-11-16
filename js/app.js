@@ -37,6 +37,7 @@ angular.module('CommentApp', ['ui.bootstrap'])
                 .success(function(responseData) {
                     $scope.newComment.objectId = responseData.objectId;
                     $scope.comments.push($scope.newComment);
+                    $scope.incrementVotes($scope.newComment, 0);
                     $scope.newComment = {};
                 })
                 .finally(function () {
@@ -45,29 +46,31 @@ angular.module('CommentApp', ['ui.bootstrap'])
         };
 
         $scope.deleteComment = function(comment) {
-            $http.put(commentsUrl + '/' + comment.objectId, comment)
-                .success(function() {
-                    //we could give some feedback to the user
+            $http.delete(commentsUrl + '/' + comment.objectId, comment)
+                .finally(function() {
+                    $scope.refreshComments();
                 });
         };
 
         $scope.incrementVotes = function(comment, amount) {
-            var postData = {
-                votes: {
-                    __op: "Increment",
-                    amount: amount
-                }
-            };
-            $scope.updating = true;
-            $http.put(commentsUrl + '/' + comment.objectId, postData)
-                .success(function(respData) {
-                    comment.votes = respData.votes;
-                })
-                .error(function(err) {
-                    console.log(err);
-                })
-                .   finally(function() {
-                    $scope.updating = false;
-                });
+            if (!(comment.votes == 0 && amount < 0)) {
+                var postData = {
+                    votes: {
+                        __op: "Increment",
+                        amount: amount
+                    }
+                };
+                $scope.updating = true;
+                $http.put(commentsUrl + '/' + comment.objectId, postData)
+                    .success(function(respData) {
+                        comment.votes = respData.votes;
+                    })
+                    .error(function(err) {
+                        console.log(err);
+                    })
+                    .   finally(function() {
+                        $scope.updating = false;
+                    });
+            }
         };
     });

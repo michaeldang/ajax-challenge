@@ -70,31 +70,36 @@
         each comment should also have UI allowing the user to vote up/down the comment
         as well as delete it
          -->
-        <p>
-            <button class="btn btn-primary" ng-click="refreshComments()">Refresh</button>
-        </p>
-
         <table class="table">
             <thead>
             <tr>
-                <th>Rating</th>
-                <th>Comment</th>
-                <th>Score</th>
-                <th>Delete</th>
+                <th class="col-md-2"></th>
+                <th class="col-md-8">Comments</th>
+                <th class="col-md-1">Votes</th>
+                <th class="col-md-1">Delete Comment?</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-class="{done: comment.done}" ng-repeat="comment in comments">
+            <tr ng-repeat="comment in comments">
                 <td>
-                    <p>{{comment.name}}</p>
                     <p>{{comment.title}}</p>
-                    <p><rating max="5" ng-model="comment.rating" ng-change="updateComment(comment)" readonly="comment.done"></rating></p>
-                <td><p>{{comment.body}}</p></td>
-                <td><p>{{comment.votes || 0}}
+                    <p>
+                        <rating max="5" ng-model="comment.rating" readonly="true"></rating>
+                    </p>
+                    <p>{{comment.name}}</p>
+                </td>
+
+                <td>
+                    {{comment.body}}
+                </td>
+
+                <td>
+                    {{comment.votes || 0}}
                     <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementVotes(comment, 1)"></span>
                     <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementVotes(comment, -1)"></span>
-                </p></td>
-                <td><input type="checkbox" ng-model="task.done" ng-change="updateComment(comment)"/></td>
+                </td>
+
+                <td><input type="button" ng-model="comment.delete" ng-click="deleteComment(comment)"" value ="Delete"></td>
             </tr>
             </tbody>
         </table>
