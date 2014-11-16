@@ -37,9 +37,17 @@ angular.module('CommentApp', ['ui.bootstrap'])
                 .success(function(responseData) {
                     $scope.newComment.objectId = responseData.objectId;
                     $scope.comments.push($scope.newComment);
+                    $scope.newComment = {};
                 })
                 .finally(function () {
                     $scope.inserting = false;
+                });
+        };
+
+        $scope.deleteComment = function(comment) {
+            $http.put(commentsUrl + '/' + comment.objectId, comment)
+                .success(function() {
+                    //we could give some feedback to the user
                 });
         };
 

@@ -76,37 +76,26 @@
 
         <table class="table">
             <thead>
-                <tr>
-                    <th>Author Info</th>
-                    <th>Comment Rating</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Score</th>
+                <th>Delete</th>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="comment in comments">
-                    <td>
-                        <p>
-                            Title: {{comment.title}}
-                            <br>
-                            Author: {{comment.name}}
-                            <br>
-                            Rating: <rating max="5" ng-model="comment.rating" readonly="true"></rating>
-                        </p>
-                        <p>
-                            {{comment.body}}
-                        </p>
-                    </td>
-
-                    <td>
-                        {{comment.votes || 0}}
-                        <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementVotes(comment, 1)"></span>
-                        <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementVotes(comment, -1)"></span>
-                    </td>
-
-                    <td>
-                        <button>Delete</button>
-                    </td>
-                </tr>
+            <tr ng-class="{done: comment.done}" ng-repeat="comment in comments">
+                <td>
+                    <p>{{comment.name}}</p>
+                    <p>{{comment.title}}</p>
+                    <p><rating max="5" ng-model="comment.rating" ng-change="updateComment(comment)" readonly="comment.done"></rating></p>
+                <td><p>{{comment.body}}</p></td>
+                <td><p>{{comment.votes || 0}}
+                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementVotes(comment, 1)"></span>
+                    <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementVotes(comment, -1)"></span>
+                </p></td>
+                <td><input type="checkbox" ng-model="task.done" ng-change="updateComment(comment)"/></td>
+            </tr>
             </tbody>
         </table>
     </section>
