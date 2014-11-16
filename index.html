@@ -98,12 +98,12 @@
                     </td>
 
                     <td>
-                        {{comment.votes || 0}}
+                        {{comment.votes}}
                         <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementVotes(comment, 1)"></span>
                         <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementVotes(comment, -1)"></span>
                     </td>
 
-                    <td><input type="button" ng-model="comment.delete" ng-click="deleteComment(comment)"" value ="Delete"></td>
+                    <td><input type="button" ng-model="comment.delete" ng-click="deleteComment(comment)" value ="Delete"></td>
                 </tr>
             </tbody>
         </table>
