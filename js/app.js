@@ -27,9 +27,20 @@ angular.module('CommentApp', ['ui.bootstrap'])
             $http.get(commentsUrl)
                 .success(function (data) {
                     $scope.comments = data.results;
+                    $scope.comments.sort($scope.compareForSort);
                 });
         };
         $scope.refreshComments();
+
+        $scope.compareForSort = function(first, second)
+        {
+            if (first.votes == second.votes)
+                return 0;
+            if (first.votes < second.votes)
+                return 1;
+            else
+                return -1;
+        }
 
         $scope.addComment = function() {
             $scope.inserting = true;

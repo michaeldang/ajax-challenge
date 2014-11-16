@@ -39,20 +39,20 @@
             <div class="form-group">
                 <label for="comment-name">Name</label>
                 <input type="text" id="comment-name" class="form-control"
-                       placeholder="title of new Review" ng-model="newComment.name"/>
+                       placeholder="Enter your name" ng-model="newComment.name"/>
             </div>
 
 
             <div class="form-group">
                 <label for="comment-title">Title</label>
                 <input type="text" id="comment-title" class="form-control"
-                       placeholder="title of new Review" ng-model="newComment.title"/>
+                       placeholder="Enter a title" ng-model="newComment.title"/>
             </div>
 
             <div class="form-group">
-                <label for="comment-body">Body</label>
+                <label for="comment-body">Comment</label>
                 <input type="text" id="comment-body" class="form-control"
-                       placeholder="title of new Review" ng-model="newComment.body"/>
+                       placeholder="Enter a comment" ng-model="newComment.body"/>
             </div>
 
             <div class="form-group">
@@ -70,7 +70,11 @@
         each comment should also have UI allowing the user to vote up/down the comment
         as well as delete it
          -->
-        <table class="table">
+        <p>
+            <button class="btn btn-primary" ng-click="refreshComments()">Refresh</button>
+        </p>
+
+        <table class="table" ng-if="comments.length != 0">
             <thead>
             <tr>
                 <th class="col-md-2"></th>
@@ -80,29 +84,32 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="comment in comments">
-                <td>
-                    <p>{{comment.title}}</p>
-                    <p>
-                        <rating max="5" ng-model="comment.rating" readonly="true"></rating>
-                    </p>
-                    <p>{{comment.name}}</p>
-                </td>
+                <tr ng-repeat="comment in comments">
+                    <td>
+                        <p>{{comment.title}}</p>
+                        <p>
+                            <rating max="5" ng-model="comment.rating" readonly="true"></rating>
+                        </p>
+                        <p>{{comment.name}}</p>
+                    </td>
 
-                <td>
-                    {{comment.body}}
-                </td>
+                    <td>
+                        {{comment.body}}
+                    </td>
 
-                <td>
-                    {{comment.votes || 0}}
-                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementVotes(comment, 1)"></span>
-                    <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementVotes(comment, -1)"></span>
-                </td>
+                    <td>
+                        {{comment.votes || 0}}
+                        <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementVotes(comment, 1)"></span>
+                        <span class="glyphicon glyphicon-thumbs-down" ng-click="incrementVotes(comment, -1)"></span>
+                    </td>
 
-                <td><input type="button" ng-model="comment.delete" ng-click="deleteComment(comment)"" value ="Delete"></td>
-            </tr>
+                    <td><input type="button" ng-model="comment.delete" ng-click="deleteComment(comment)"" value ="Delete"></td>
+                </tr>
             </tbody>
         </table>
+        <p>
+            <h3 ng-if="comments.length == 0">No Comments Available!</h3>
+        </p>
     </section>
 
 </main>
